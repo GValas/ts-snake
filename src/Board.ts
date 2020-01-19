@@ -1,5 +1,5 @@
 import { Point } from './interfaces/Point'
-import { BlockColor } from './BlockColor'
+import { BlockColor } from './enums/BlockColor'
 import { Block } from './Block'
 
 export class Board {
@@ -7,10 +7,12 @@ export class Board {
     public readonly BoardSize = 20
     private canv: HTMLCanvasElement
     private ctxt: CanvasRenderingContext2D
-    randomBlock(): Block {
+
+    randomObstacle(): Block {
         return new Block(
             Math.floor(Math.random() * this.BoardSize),
             Math.floor(Math.random() * this.BoardSize),
+            BlockColor.Obstacle,
         )
     }
     constructor() {
@@ -25,11 +27,11 @@ export class Board {
         }
         this.ctxt = y
     }
-    public drawBlock(color: string, pt: Point) {
-        this.ctxt.fillStyle = color
+    public drawBlock(block: Block) {
+        this.ctxt.fillStyle = block.color
         this.ctxt.fillRect(
-            pt.x * this.BlockSize,
-            pt.y * this.BlockSize,
+            block.x * this.BlockSize,
+            block.y * this.BlockSize,
             this.BlockSize - 2,
             this.BlockSize - 2,
         )

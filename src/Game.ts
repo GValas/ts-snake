@@ -1,55 +1,47 @@
-import { BlockColor } from './BlockColor'
-import { Block } from './Block'
 import { Snake } from './Snake'
 import { Board } from './Board'
+import { Key } from './enums/Key'
 
 export class Game {
-    private obstaclePt = new Block(15, 15)
+    private obstacle = this.board.randomObstacle()
     private readonly RefreshRateMs = 100
-    public start() {
-        setInterval(() => this.refresh(), this.RefreshRateMs)
-    }
+
     constructor(private board: Board, private snake: Snake) {
         document.addEventListener('keydown', evt => this.keyPush(evt))
     }
+
+    public start() {
+        setInterval(() => this.refresh(), this.RefreshRateMs)
+    }
+
     private keyPush(evt: { keyCode: number }) {
         switch (evt.keyCode) {
-            case 37:
+            case Key.Left:
                 this.snake.setSpeed(-1, 0)
                 break
-            case 38:
+            case Key.Up:
                 this.snake.setSpeed(0, -1)
                 break
-            case 39:
+            case Key.Right:
                 this.snake.setSpeed(1, 0)
                 break
-            case 40:
+            case Key.Down:
                 this.snake.setSpeed(0, 1)
                 break
         }
     }
+
     private refresh() {
-        this.board.reset()
+        // snake
         this.snake.move(this.board.BoardSize, this.board.BoardSize)
-        const pts: Point[] = [] // sanke trail
-        for (const pt of pts) {
-            this.board.drawBlock(BlockColor.Snake, pt)
-            // collision => reset trail
-            //if (pt.is(this.headPt)) {
-            // if (pt.is(this.headPt)) {
-            //     this.tail = Game.MinTailSize
-            // }
-        }
-        this.snake.selfCollide()
-        this.trail.push(this.headPt.clone())
-        while (this.trail.length > this.tail) {
-            this.trail.shift()
-        }
-        // impact, add new element in the tail and pick up a new target block
-        if (this.snake.collideWith(this.obstaclePt)) {
+        if (this.snake.collideWith(this.obstacle)) {
             this.snake.upScale()
-            this.obstaclePt = this.board.randomBlock()
+            this.obstacle = this.board.randomObstacle()
         }
-        this.board.drawBlock(BlockColor.Obstacle, this.obstaclePt)
+
+        // board
+        this.board.reset()
+        this.snake.trail.forEach(b => this.board.drawBlock(b))
+        this.board.drawBlock(this.obstacle)
     }
 }
