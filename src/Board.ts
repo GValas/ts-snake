@@ -1,4 +1,3 @@
-import { Point } from './interfaces/Point'
 import { BlockColor } from './enums/BlockColor'
 import { Block } from './Block'
 
@@ -16,16 +15,8 @@ export class Board {
         )
     }
     constructor() {
-        const x = document.querySelector<HTMLCanvasElement>('#gc')
-        if (x === null) {
-            throw Error()
-        }
-        this.canv = x
-        const y = this.canv.getContext('2d')
-        if (y === null) {
-            throw Error()
-        }
-        this.ctxt = y
+        this.canv = document.querySelector<HTMLCanvasElement>('#gc')!
+        this.ctxt = this.canv.getContext('2d')!
     }
     public drawBlock(block: Block) {
         this.ctxt.fillStyle = block.color
