@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
         "sourceMap": true,
         "outDir": "./dist",
         "rootDir": "./src",
@@ -12,9 +11,7 @@
         "removeComments": true,
         "noLib": false,
         "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "target": "es6",
-        "allowJs": true
+        "target": "es6"
     },
     "exclude": ["node_modules", "**/*.spec.ts"],
     "include": ["src/**/*"]
