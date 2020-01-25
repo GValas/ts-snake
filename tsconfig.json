@@ -10,7 +10,6 @@
         "noUnusedLocals": false,
         "removeComments": true,
         "noLib": false,
-        "emitDecoratorMetadata": true,
         "target": "es6"
     },
     "exclude": ["node_modules", "**/*.spec.ts"],

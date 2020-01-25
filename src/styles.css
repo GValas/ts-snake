@@ -1,0 +1,10 @@
+body {
+    background-color: dimgray;
+    text-align: center;
+}
+
+canvas {
+    border-style: solid;
+    border-width: 10px;
+    border-color: azure;
+}
