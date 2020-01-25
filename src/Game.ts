@@ -1,6 +1,6 @@
 import { Snake } from './Snake'
 import { Board } from './Board'
-import { Key } from './enums/Key'
+import { NavigationKey } from './enums/Key'
 import { Point } from './interfaces/Point'
 
 export class Game {
@@ -34,12 +34,16 @@ export class Game {
                 Math.abs(pitch) > this.minRotation &&
                 Math.abs(pitch) > Math.abs(roll)
             ) {
-                this.setSnakeSpeed(pitch > 0 ? Key.Down : Key.Up)
+                this.setSnakeSpeed(
+                    pitch > 0 ? NavigationKey.Down : NavigationKey.Up,
+                )
             } else if (
                 Math.abs(roll) > this.minRotation &&
                 Math.abs(roll) > Math.abs(pitch)
             ) {
-                this.setSnakeSpeed(roll > 0 ? Key.Right : Key.Left)
+                this.setSnakeSpeed(
+                    roll > 0 ? NavigationKey.Right : NavigationKey.Left,
+                )
             }
         }
     }
@@ -53,9 +57,13 @@ export class Game {
             const dx = evt.changedTouches[0].clientX - this.touchPt.x
             const dy = evt.changedTouches[0].clientY - this.touchPt.y
             if (Math.abs(dx) > Math.abs(dy)) {
-                this.setSnakeSpeed(dx > 0 ? Key.Right : Key.Left)
+                this.setSnakeSpeed(
+                    dx > 0 ? NavigationKey.Right : NavigationKey.Left,
+                )
             } else {
-                this.setSnakeSpeed(dy > 0 ? Key.Down : Key.Up)
+                this.setSnakeSpeed(
+                    dy > 0 ? NavigationKey.Down : NavigationKey.Up,
+                )
             }
         }
     }
@@ -67,25 +75,25 @@ export class Game {
         }
     }
 
-    private setSnakeSpeed(key: Key) {
-        switch (key) {
-            case Key.Left:
+    private setSnakeSpeed(key: string) {
+        switch (key as NavigationKey) {
+            case NavigationKey.Left:
                 this.snake.setSpeed(-1, 0)
                 break
-            case Key.Up:
+            case NavigationKey.Up:
                 this.snake.setSpeed(0, -1)
                 break
-            case Key.Right:
+            case NavigationKey.Right:
                 this.snake.setSpeed(1, 0)
                 break
-            case Key.Down:
+            case NavigationKey.Down:
                 this.snake.setSpeed(0, 1)
                 break
         }
     }
 
-    private keyPush(evt: { keyCode: number }) {
-        this.setSnakeSpeed(evt.keyCode)
+    private keyPush(evt: KeyboardEvent) {
+        this.setSnakeSpeed(evt.key)
     }
 
     private refresh() {
