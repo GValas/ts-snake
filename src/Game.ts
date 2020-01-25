@@ -9,10 +9,39 @@ export class Game {
 
     private touchPt: Point = { x: 0, y: 0 }
 
+    private minRotation = 80
+
+    get isTouchScreenOn(): boolean {
+        const radio = document.querySelector(
+            'input[name=controler-type]:checked',
+        ) as HTMLInputElement
+        return radio.id === 'touch'
+    }
+
     constructor(private board: Board, private snake: Snake) {
         document.addEventListener('keydown', evt => this.keyPush(evt))
         document.addEventListener('touchstart', evt => this.touchStart(evt))
         document.addEventListener('touchend', evt => this.touchEnd(evt))
+        window.addEventListener('devicemotion', evt => this.motionHandler(evt))
+    }
+
+    private motionHandler(evt: DeviceMotionEvent) {
+        if (!this.isTouchScreenOn) {
+            const roll = evt.rotationRate?.beta! // roulis
+            const pitch = evt.rotationRate?.alpha! // tangage
+
+            if (
+                Math.abs(pitch) > this.minRotation &&
+                Math.abs(pitch) > Math.abs(roll)
+            ) {
+                this.setSnakeSpeed(pitch > 0 ? Key.Down : Key.Up)
+            } else if (
+                Math.abs(roll) > this.minRotation &&
+                Math.abs(roll) > Math.abs(pitch)
+            ) {
+                this.setSnakeSpeed(roll > 0 ? Key.Right : Key.Left)
+            }
+        }
     }
 
     public start() {
@@ -20,29 +49,25 @@ export class Game {
     }
 
     private touchEnd(evt: TouchEvent) {
-        const dx = evt.changedTouches[0].clientX - this.touchPt.x
-        const dy = evt.changedTouches[0].clientY - this.touchPt.y
-        if (Math.abs(dx) > Math.abs(dy)) {
-            if (dx > 0) {
-                this.setSnakeSpred(Key.Right)
+        if (this.isTouchScreenOn) {
+            const dx = evt.changedTouches[0].clientX - this.touchPt.x
+            const dy = evt.changedTouches[0].clientY - this.touchPt.y
+            if (Math.abs(dx) > Math.abs(dy)) {
+                this.setSnakeSpeed(dx > 0 ? Key.Right : Key.Left)
             } else {
-                this.setSnakeSpred(Key.Left)
-            }
-        } else {
-            if (dy > 0) {
-                this.setSnakeSpred(Key.Down)
-            } else {
-                this.setSnakeSpred(Key.Up)
+                this.setSnakeSpeed(dy > 0 ? Key.Down : Key.Up)
             }
         }
     }
 
     private touchStart(evt: TouchEvent) {
-        this.touchPt.x = evt.changedTouches[0].clientX
-        this.touchPt.y = evt.changedTouches[0].clientY
+        if (this.isTouchScreenOn) {
+            this.touchPt.x = evt.changedTouches[0].clientX
+            this.touchPt.y = evt.changedTouches[0].clientY
+        }
     }
 
-    private setSnakeSpred(key: Key) {
+    private setSnakeSpeed(key: Key) {
         switch (key) {
             case Key.Left:
                 this.snake.setSpeed(-1, 0)
@@ -60,7 +85,7 @@ export class Game {
     }
 
     private keyPush(evt: { keyCode: number }) {
-        this.setSnakeSpred(evt.keyCode)
+        this.setSnakeSpeed(evt.keyCode)
     }
 
     private refresh() {
