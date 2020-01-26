@@ -1,6 +1,7 @@
 import { Board } from './Board'
 import { Collision } from './enums/Collision'
-import { NavKey } from './enums/Key'
+import { GameControl } from './enums/GameControl'
+import { NavKey } from './enums/NavKey'
 import { IPoint } from './interfaces/Point'
 import { Snake } from './Snake'
 
@@ -14,8 +15,11 @@ export class Game {
     private touchPt: IPoint = { x: 0, y: 0 }
     private elapsedTime = 0
 
-    get allowGyroControl(): boolean {
-        return document.querySelector<HTMLInputElement>('#gyro')!.checked
+    private get controlType(): GameControl {
+        const radio = document.querySelector(
+            'input[name=game-controler]:checked',
+        ) as HTMLInputElement
+        return radio.id as GameControl
     }
 
     constructor(private board: Board, private snake: Snake) {
@@ -23,23 +27,43 @@ export class Game {
         document.addEventListener('touchstart', evt => this.touchStart(evt))
         document.addEventListener('touchend', evt => this.touchEnd(evt))
         window.addEventListener('devicemotion', evt => this.motionHandler(evt))
+        window.addEventListener('deviceorientation', evt =>
+            this.orientationHandler(evt),
+        )
+    }
+
+    private orientationHandler(evt: DeviceOrientationEvent) {
+        if (this.controlType === GameControl.GyroPosition) {
+            const pitch = evt?.beta! // tangage (ailes)
+            const roll = evt?.gamma! // roulis
+
+            if (pitch < 0) {
+                this.setSnakeSpeed(NavKey.Up)
+            } else if (pitch > 20) {
+                this.setSnakeSpeed(NavKey.Down)
+            }
+
+            if (roll < -5) {
+                this.setSnakeSpeed(NavKey.Left)
+            } else if (roll > 5) {
+                this.setSnakeSpeed(NavKey.Right)
+            }
+        }
     }
 
     private motionHandler(evt: DeviceMotionEvent) {
-        if (this.allowGyroControl) {
+        if (this.controlType === GameControl.GyroAcceleration) {
+            const pitch = evt.rotationRate?.alpha! //  tangage (ailes)
             const roll = evt.rotationRate?.beta! // roulis
-            const pitch = evt.rotationRate?.alpha! // tangage
 
-            if (
-                Math.abs(pitch) > this.gyroSensitivity &&
-                Math.abs(pitch) > Math.abs(roll)
-            ) {
-                this.setSnakeSpeed(pitch > 0 ? NavKey.Down : NavKey.Up)
-            } else if (
-                Math.abs(roll) > this.gyroSensitivity &&
-                Math.abs(roll) > Math.abs(pitch)
-            ) {
-                this.setSnakeSpeed(roll > 0 ? NavKey.Right : NavKey.Left)
+            if (Math.abs(pitch) > Math.abs(roll)) {
+                if (Math.abs(pitch) > this.gyroSensitivity) {
+                    this.setSnakeSpeed(pitch > 0 ? NavKey.Down : NavKey.Up)
+                }
+            } else {
+                if (Math.abs(roll) > this.gyroSensitivity) {
+                    this.setSnakeSpeed(roll > 0 ? NavKey.Right : NavKey.Left)
+                }
             }
         }
     }
@@ -49,18 +73,22 @@ export class Game {
     }
 
     private touchEnd(evt: TouchEvent) {
-        const dx = evt.changedTouches[0].clientX - this.touchPt.x
-        const dy = evt.changedTouches[0].clientY - this.touchPt.y
-        if (Math.abs(dx) > Math.abs(dy)) {
-            this.setSnakeSpeed(dx > 0 ? NavKey.Right : NavKey.Left)
-        } else {
-            this.setSnakeSpeed(dy > 0 ? NavKey.Down : NavKey.Up)
+        if (this.controlType === GameControl.TouchScreen) {
+            const dx = evt.changedTouches[0].clientX - this.touchPt.x
+            const dy = evt.changedTouches[0].clientY - this.touchPt.y
+            if (Math.abs(dx) > Math.abs(dy)) {
+                this.setSnakeSpeed(dx > 0 ? NavKey.Right : NavKey.Left)
+            } else {
+                this.setSnakeSpeed(dy > 0 ? NavKey.Down : NavKey.Up)
+            }
         }
     }
 
     private touchStart(evt: TouchEvent) {
-        this.touchPt.x = evt.changedTouches[0].clientX
-        this.touchPt.y = evt.changedTouches[0].clientY
+        if (this.controlType === GameControl.TouchScreen) {
+            this.touchPt.x = evt.changedTouches[0].clientX
+            this.touchPt.y = evt.changedTouches[0].clientY
+        }
     }
 
     private setSnakeSpeed(key: string) {

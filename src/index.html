@@ -12,9 +12,23 @@
         <div id="score">5</div>
         <div id="time">0</div>
         <div>
-            <input type="checkbox" id="gyro" />
-            <label>Gyroscopique control</label>
+            <input
+                type="radio"
+                id="touch-screen"
+                name="game-controler"
+                checked
+            />
+            <label>Touch Screen</label>
         </div>
+        <div>
+            <input type="radio" id="gyro-acceleration" name="game-controler" />
+            <label>Gyroscopique acceleration</label>
+        </div>
+        <div>
+            <input type="radio" id="gyro-position" name="game-controler" />
+            <label>Gyroscopique position</label>
+        </div>
+
         <!-- <textarea id="debug" rows="4">fff</textarea> -->
         <script src="main.ts" defer></script>
     </body>

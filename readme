@@ -2,3 +2,6 @@ Elementary Snake game :
 * based on typescript
 * handling control by keyboard, touchscreen, gyroscope
 * Optimized configs for TSlint & Prettier 
+
+todos:
+* add tests (as always)

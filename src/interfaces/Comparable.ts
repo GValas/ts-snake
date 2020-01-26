@@ -1,3 +1,3 @@
 export interface IComparable<T> {
-    is(t: T): boolean
+    sameAs(t: T): boolean
 }

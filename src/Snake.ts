@@ -53,7 +53,7 @@ export class Snake {
         const newHead = this.newHead()
 
         // auto-collision
-        if (this.trail.some(block => newHead.is(block))) {
+        if (this.trail.some(block => newHead.sameAs(block))) {
             this.reset()
             return Collision.AutoCollision
         }
@@ -62,7 +62,7 @@ export class Snake {
         this.trail.push(newHead)
 
         // collision
-        if (newHead.is(obstacle)) {
+        if (newHead.sameAs(obstacle)) {
             return Collision.WithObstacle
         }
 
