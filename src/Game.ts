@@ -2,6 +2,7 @@ import { Board } from './Board'
 import { NavKey } from './enums/Key'
 import { IPoint } from './interfaces/Point'
 import { Snake } from './Snake'
+import { Collision } from './enums/ICollision'
 
 export class Game {
     private readonly RefreshRateMs = 100
@@ -85,17 +86,24 @@ export class Game {
 
     private refresh() {
         // move snake
-        if (this.snake.moveWithCollision(this.obstacle)) {
-            this.obstacle = this.board.randomObstacle()
+        switch (this.snake.move(this.obstacle)) {
+            case Collision.WithObstacle:
+                this.obstacle = this.board.randomObstacle()
+                break
+
+            case Collision.AutoCollision:
+                this.elapsedTime = 0
+                break
         }
 
         this.elapsedTime += this.RefreshRateMs
 
         // redraw
         this.board.reset()
-        this.snake.trail.forEach(b => this.board.drawBlock(b))
+        this.board.drawBlocks(this.snake.trail)
         this.board.drawBlock(this.obstacle)
 
+        // update stats
         this.score.innerHTML = `Snake size : ${this.snake.size}`
         this.time.innerHTML = `Elapsed time : ${Math.round(
             this.elapsedTime / 1000,

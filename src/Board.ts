@@ -15,6 +15,10 @@ export class Board {
         )
     }
 
+    drawBlocks(blocks: Block[]) {
+        blocks.forEach(b => this.drawBlock(b))
+    }
+
     drawBlock(block: Block) {
         this.ctxt.fillStyle = block.color
         this.ctxt.fillRect(

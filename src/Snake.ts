@@ -1,5 +1,6 @@
 import { Block } from './Block'
 import { BlockColor } from './enums/BlockColor'
+import { Collision } from './enums/ICollision'
 import { IPoint } from './interfaces/Point'
 
 export class Snake {
@@ -47,14 +48,14 @@ export class Snake {
         return newHead
     }
 
-    moveWithCollision(obstacle: Block): boolean {
+    move(obstacle: Block): Collision {
         // new head
         const newHead = this.newHead()
 
         // auto-collision
         if (this.trail.some(block => newHead.is(block))) {
             this.reset()
-            return false
+            return Collision.AutoCollision
         }
 
         // new block
@@ -62,12 +63,13 @@ export class Snake {
 
         // collision
         if (newHead.is(obstacle)) {
-            return true
-        } else {
-            if (this.trail.length > this.MinTailSize) {
-                this.trail.shift()
-            }
-            return false
+            return Collision.WithObstacle
         }
+
+        // no collision at all
+        if (this.trail.length > this.MinTailSize) {
+            this.trail.shift()
+        }
+        return Collision.None
     }
 }
