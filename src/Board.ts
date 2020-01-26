@@ -1,11 +1,11 @@
-import { BlockColor } from './enums/BlockColor'
 import { Block } from './Block'
+import { BlockColor } from './enums/BlockColor'
 
 export class Board {
-    public readonly BlockSize = 20
-    public readonly BoardSize = 20
-    private canv: HTMLCanvasElement
-    private ctxt: CanvasRenderingContext2D
+    readonly BlockSize = 20
+    readonly BoardSize = 20
+    private readonly canv = document.querySelector<HTMLCanvasElement>('#gc')!
+    private readonly ctxt = this.canv.getContext('2d')!
 
     randomObstacle(): Block {
         return new Block(
@@ -14,11 +14,8 @@ export class Board {
             BlockColor.Obstacle,
         )
     }
-    constructor() {
-        this.canv = document.querySelector<HTMLCanvasElement>('#gc')!
-        this.ctxt = this.canv.getContext('2d')!
-    }
-    public drawBlock(block: Block) {
+
+    drawBlock(block: Block) {
         this.ctxt.fillStyle = block.color
         this.ctxt.fillRect(
             block.x * this.BlockSize,
@@ -27,7 +24,8 @@ export class Board {
             this.BlockSize - 2,
         )
     }
-    public reset() {
+
+    reset() {
         this.ctxt.fillStyle = BlockColor.Board
         this.ctxt.fillRect(0, 0, this.canv.width, this.canv.height)
     }

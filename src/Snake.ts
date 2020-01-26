@@ -1,54 +1,73 @@
-import { Point } from './interfaces/Point'
 import { Block } from './Block'
 import { BlockColor } from './enums/BlockColor'
+import { IPoint } from './interfaces/Point'
 
 export class Snake {
-    public headBlock = new Block(10, 10, BlockColor.Snake)
-    private speed: Point = { x: -1, y: 0 }
+    private speed: IPoint = { x: -1, y: 0 }
 
     private readonly MinTailSize = 5
-    public trail = Array<Block>()
-    private tail = this.MinTailSize
+    trail = Array<Block>()
 
-    public setSpeed(x: number, y: number) {
+    private get head(): Block {
+        return this.trail[this.trail.length - 1]
+    }
+
+    constructor(private boardSize: number) {
+        this.reset()
+    }
+
+    setSpeed(x: number, y: number) {
         this.speed.x = x
         this.speed.y = y
     }
 
-    public upScale() {
-        this.tail++
+    get size(): number {
+        return this.trail.length
     }
 
-    public collideWith(obstacle: Block): boolean {
-        return this.headBlock.is(obstacle)
+    private reset() {
+        this.trail = [new Block(10, 10, BlockColor.Snake)]
     }
 
-    public move(xMax: number, yMax: number) {
-        this.headBlock.x += this.speed.x
-        this.headBlock.y += this.speed.y
-        if (this.headBlock.x < 0) {
-            this.headBlock.x = xMax - 1
-        } else if (this.headBlock.x > xMax - 1) {
-            this.headBlock.x = 0
-        } else if (this.headBlock.y < 0) {
-            this.headBlock.y = yMax - 1
-        } else if (this.headBlock.y > yMax - 1) {
-            this.headBlock.y = 0
+    private newHead(): Block {
+        const newHead = this.head.clone()
+        newHead.x += this.speed.x
+        newHead.y += this.speed.y
+
+        // borders topology
+        if (newHead.x < 0) {
+            newHead.x = this.boardSize - 1
+        } else if (newHead.x > this.boardSize - 1) {
+            newHead.x = 0
+        } else if (newHead.y < 0) {
+            newHead.y = this.boardSize - 1
+        } else if (newHead.y > this.boardSize - 1) {
+            newHead.y = 0
+        }
+        return newHead
+    }
+
+    moveWithCollision(obstacle: Block): boolean {
+        // new head
+        const newHead = this.newHead()
+
+        // auto-collision
+        if (this.trail.some(block => newHead.is(block))) {
+            this.reset()
+            return false
         }
 
-        this.checkCollision()
-    }
+        // new block
+        this.trail.push(newHead)
 
-    private checkCollision() {
-        for (const b of this.trail) {
-            if (this.collideWith(b)) {
-                this.tail = this.MinTailSize
+        // collision
+        if (newHead.is(obstacle)) {
+            return true
+        } else {
+            if (this.trail.length > this.MinTailSize) {
+                this.trail.shift()
             }
-        }
-
-        this.trail.push(this.headBlock.clone())
-        while (this.trail.length > this.tail) {
-            this.trail.shift()
+            return false
         }
     }
 }

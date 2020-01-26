@@ -1,21 +1,20 @@
-import { Snake } from './Snake'
 import { Board } from './Board'
-import { NavigationKey } from './enums/Key'
-import { Point } from './interfaces/Point'
+import { NavKey } from './enums/Key'
+import { IPoint } from './interfaces/Point'
+import { Snake } from './Snake'
 
 export class Game {
-    private obstacle = this.board.randomObstacle()
     private readonly RefreshRateMs = 100
+    private readonly gyroSensitivity = 80
 
-    private touchPt: Point = { x: 0, y: 0 }
+    private score = document.querySelector<HTMLDivElement>('#score')!
+    private time = document.querySelector<HTMLDivElement>('#time')!
+    private obstacle = this.board.randomObstacle()
+    private touchPt: IPoint = { x: 0, y: 0 }
+    private elapsedTime = 0
 
-    private minRotation = 80
-
-    get isTouchScreenOn(): boolean {
-        const radio = document.querySelector(
-            'input[name=controler-type]:checked',
-        ) as HTMLInputElement
-        return radio.id === 'touch'
+    get allowGyroControl(): boolean {
+        return document.querySelector<HTMLInputElement>('#gyro')!.checked
     }
 
     constructor(private board: Board, private snake: Snake) {
@@ -26,67 +25,55 @@ export class Game {
     }
 
     private motionHandler(evt: DeviceMotionEvent) {
-        if (!this.isTouchScreenOn) {
+        if (this.allowGyroControl) {
             const roll = evt.rotationRate?.beta! // roulis
             const pitch = evt.rotationRate?.alpha! // tangage
 
             if (
-                Math.abs(pitch) > this.minRotation &&
+                Math.abs(pitch) > this.gyroSensitivity &&
                 Math.abs(pitch) > Math.abs(roll)
             ) {
-                this.setSnakeSpeed(
-                    pitch > 0 ? NavigationKey.Down : NavigationKey.Up,
-                )
+                this.setSnakeSpeed(pitch > 0 ? NavKey.Down : NavKey.Up)
             } else if (
-                Math.abs(roll) > this.minRotation &&
+                Math.abs(roll) > this.gyroSensitivity &&
                 Math.abs(roll) > Math.abs(pitch)
             ) {
-                this.setSnakeSpeed(
-                    roll > 0 ? NavigationKey.Right : NavigationKey.Left,
-                )
+                this.setSnakeSpeed(roll > 0 ? NavKey.Right : NavKey.Left)
             }
         }
     }
 
-    public start() {
+    start() {
         setInterval(() => this.refresh(), this.RefreshRateMs)
     }
 
     private touchEnd(evt: TouchEvent) {
-        if (this.isTouchScreenOn) {
-            const dx = evt.changedTouches[0].clientX - this.touchPt.x
-            const dy = evt.changedTouches[0].clientY - this.touchPt.y
-            if (Math.abs(dx) > Math.abs(dy)) {
-                this.setSnakeSpeed(
-                    dx > 0 ? NavigationKey.Right : NavigationKey.Left,
-                )
-            } else {
-                this.setSnakeSpeed(
-                    dy > 0 ? NavigationKey.Down : NavigationKey.Up,
-                )
-            }
+        const dx = evt.changedTouches[0].clientX - this.touchPt.x
+        const dy = evt.changedTouches[0].clientY - this.touchPt.y
+        if (Math.abs(dx) > Math.abs(dy)) {
+            this.setSnakeSpeed(dx > 0 ? NavKey.Right : NavKey.Left)
+        } else {
+            this.setSnakeSpeed(dy > 0 ? NavKey.Down : NavKey.Up)
         }
     }
 
     private touchStart(evt: TouchEvent) {
-        if (this.isTouchScreenOn) {
-            this.touchPt.x = evt.changedTouches[0].clientX
-            this.touchPt.y = evt.changedTouches[0].clientY
-        }
+        this.touchPt.x = evt.changedTouches[0].clientX
+        this.touchPt.y = evt.changedTouches[0].clientY
     }
 
     private setSnakeSpeed(key: string) {
-        switch (key as NavigationKey) {
-            case NavigationKey.Left:
+        switch (key as NavKey) {
+            case NavKey.Left:
                 this.snake.setSpeed(-1, 0)
                 break
-            case NavigationKey.Up:
+            case NavKey.Up:
                 this.snake.setSpeed(0, -1)
                 break
-            case NavigationKey.Right:
+            case NavKey.Right:
                 this.snake.setSpeed(1, 0)
                 break
-            case NavigationKey.Down:
+            case NavKey.Down:
                 this.snake.setSpeed(0, 1)
                 break
         }
@@ -97,16 +84,21 @@ export class Game {
     }
 
     private refresh() {
-        // snake
-        this.snake.move(this.board.BoardSize, this.board.BoardSize)
-        if (this.snake.collideWith(this.obstacle)) {
-            this.snake.upScale()
+        // move snake
+        if (this.snake.moveWithCollision(this.obstacle)) {
             this.obstacle = this.board.randomObstacle()
         }
 
-        // board
+        this.elapsedTime += this.RefreshRateMs
+
+        // redraw
         this.board.reset()
         this.snake.trail.forEach(b => this.board.drawBlock(b))
         this.board.drawBlock(this.obstacle)
+
+        this.score.innerHTML = `Snake size : ${this.snake.size}`
+        this.time.innerHTML = `Elapsed time : ${Math.round(
+            this.elapsedTime / 1000,
+        )}`
     }
 }
