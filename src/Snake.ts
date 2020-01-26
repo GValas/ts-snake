@@ -1,6 +1,6 @@
 import { Block } from './Block'
 import { BlockColor } from './enums/BlockColor'
-import { Collision } from './enums/ICollision'
+import { Collision } from './enums/Collision'
 import { IPoint } from './interfaces/Point'
 
 export class Snake {

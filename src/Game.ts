@@ -1,8 +1,8 @@
 import { Board } from './Board'
+import { Collision } from './enums/Collision'
 import { NavKey } from './enums/Key'
 import { IPoint } from './interfaces/Point'
 import { Snake } from './Snake'
-import { Collision } from './enums/ICollision'
 
 export class Game {
     private readonly RefreshRateMs = 100
