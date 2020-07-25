@@ -1,0 +1,10 @@
+version: '3'
+services:
+    ts-snack:
+        environment:
+            - TOTO=9999
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        ports:
+            - '${APP_PORT}:${APP_PORT}'
