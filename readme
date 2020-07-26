@@ -5,3 +5,4 @@ Elementary Snake game :
 
 todos:
 * add tests (as always)
+* docker : port 5555 is both in package.json & .env file used by docker-compose
