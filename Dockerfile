@@ -1,10 +1,10 @@
-FROM node:10
+FROM node:11-alpine
 
 # Create Directory for the Container
 WORKDIR /usr/src/app
 
 # Only copy the package.json file to work directory
-COPY package*.json ./
+COPY ./package*.json ./
 
 # Install all Packages
 RUN npm install 
@@ -14,6 +14,9 @@ COPY . .
 
 # RUN npm run browser-build
 
-# Start
-EXPOSE 1234
+# Expose port
+ARG APP_PORT
+EXPOSE $APP_PORT
+
+# Final command
 CMD [ "npm", "run", "browser-serve" ]

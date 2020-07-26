@@ -5,7 +5,7 @@
     "main": "main.js",
     "scripts": {
         "browser-build": "parcel build src/index.html --public-url ./",
-        "browser-serve": "parcel serve src/index.html --cert resources/server.crt --key resources/server.key",
+        "browser-serve": "parcel serve src/index.html --port=5555 --cert resources/server.crt --key resources/server.key",
         "server-start": "tsc && node dist/main.js",
         "server-dev": "nodemon --watch src/**/*.ts --exec ts-node src/main.ts"
     },
