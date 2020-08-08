@@ -1,8 +1,8 @@
 import { Board } from './Board'
 import { Collision } from './enums/Collision'
 import { GameControl } from './enums/GameControl'
-import { NavKey } from './enums/NavKey'
 import { IPoint } from './interfaces/Point'
+import { NavKey } from './enums/NavKey'
 import { Snake } from './Snake'
 
 export class Game {
@@ -23,11 +23,13 @@ export class Game {
     }
 
     constructor(private board: Board, private snake: Snake) {
-        document.addEventListener('keydown', evt => this.keyPush(evt))
-        document.addEventListener('touchstart', evt => this.touchStart(evt))
-        document.addEventListener('touchend', evt => this.touchEnd(evt))
-        window.addEventListener('devicemotion', evt => this.motionHandler(evt))
-        window.addEventListener('deviceorientation', evt =>
+        document.addEventListener('keydown', (evt) => this.keyPush(evt))
+        document.addEventListener('touchstart', (evt) => this.touchStart(evt))
+        document.addEventListener('touchend', (evt) => this.touchEnd(evt))
+        window.addEventListener('devicemotion', (evt) =>
+            this.motionHandler(evt),
+        )
+        window.addEventListener('deviceorientation', (evt) =>
             this.orientationHandler(evt),
         )
     }

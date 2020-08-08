@@ -16,7 +16,7 @@ export class Board {
     }
 
     drawBlocks(blocks: Block[]) {
-        blocks.forEach(b => this.drawBlock(b))
+        blocks.forEach((b) => this.drawBlock(b))
     }
 
     drawBlock(block: Block) {
