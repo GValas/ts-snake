@@ -6,7 +6,7 @@
     "scripts": {
         "lint": "eslint . --ext .ts",
         "build": "parcel build src/index.html --public-url ./",
-        "serve": "parcel serve src/index.html --port=80 --cert resources/server.crt --key resources/server.key"
+        "serve": "parcel serve src/index.html --port=12345 --cert resources/server.crt --key resources/server.key"
     },
     "keywords": [],
     "author": "",
