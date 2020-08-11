@@ -1,6 +1,6 @@
-import { Board } from './Board'
-import { Game } from './Game'
-import { Snake } from './Snake'
+import { Board } from './classes/Board'
+import { Game } from './classes/Game'
+import { Snake } from './classes/Snake'
 
 window.addEventListener('load', () => {
     const board = new Board()

@@ -1,5 +1,5 @@
 import { Block } from './Block'
-import { BlockColor } from './enums/BlockColor'
+import { BlockColor } from '../enums/BlockColor'
 
 export class Board {
     readonly BlockSize = 20

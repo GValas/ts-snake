@@ -5,8 +5,8 @@
     "main": "main.js",
     "scripts": {
         "lint": "eslint . --ext .ts",
-        "build": "parcel build src/index.html --public-url ./",
-        "serve": "parcel serve src/index.html --port=12345 --cert resources/server.crt --key resources/server.key"
+        "build": "parcel build src/client/index.html --public-url ./",
+        "serve": "parcel serve src/client/index.html --port=12345 --cert resources/server.crt --key resources/server.key"
     },
     "keywords": [],
     "author": "",

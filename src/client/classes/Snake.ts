@@ -1,7 +1,8 @@
-import { Block } from './Block'
-import { BlockColor } from './enums/BlockColor'
-import { Collision } from './enums/Collision'
-import { IPoint } from './interfaces/Point'
+projectimport { Block } from './Block'
+import { BlockColor } from '../enums/BlockColor'
+import { Collision } from '../enums/Collision'
+import { IPoint } from '../interfaces/Point'
+import { Score } from './Score'
 
 export class Snake {
     private speed: IPoint = { x: -1, y: 0 }
@@ -48,12 +49,18 @@ export class Snake {
         return newHead
     }
 
+    saveScore() {
+        const s = new Score()
+        s.writeScore(this.trail.length)
+    }
+
     move(obstacle: Block): Collision {
         // new head
         const newHead = this.newHead()
 
         // auto-collision
         if (this.trail.some((block) => newHead.sameAs(block))) {
+            this.saveScore()
             this.reset()
             return Collision.AutoCollision
         }

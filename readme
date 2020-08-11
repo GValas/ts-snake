@@ -1,8 +1,20 @@
-Elementary Snake game :
+Elementary Snake game
 * based on typescript
 * handling control by keyboard, touchscreen, gyroscope
-* Optimized configs for TSlint & Prettier 
 
-todos:
-* add tests (as always)
-* docker : port 5555 is both in package.json & .env file used by docker-compose
+Development
+* Optimized configs for ESlint & Prettier 
+* Docker & DockerCompose used for deployments
+* Parcel used for bundling (simpler than Webpack, but more limited)
+* HTTPS 
+
+
+Documentations
+* SSL/Certificats : 
+    - https://www.isicca.com/fr/certificat-ssl-tls-guide-debutant/
+    - https://www.grafikart.fr/tutoriels/apache-ssl-letsencrypt-746
+
+
+Todos
+* Add tests (as always)
+* Upgrade to NodeJS 11+ 

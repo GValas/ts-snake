@@ -1,8 +1,8 @@
 import { Board } from './Board'
-import { Collision } from './enums/Collision'
-import { GameControl } from './enums/GameControl'
-import { IPoint } from './interfaces/Point'
-import { NavKey } from './enums/NavKey'
+import { Collision } from '../enums/Collision'
+import { GameControl } from '../enums/GameControl'
+import { IPoint } from '../interfaces/Point'
+import { NavKey } from '../enums/NavKey'
 import { Snake } from './Snake'
 
 export class Game {

@@ -1,7 +1,7 @@
-import { BlockColor } from './enums/BlockColor'
-import { ICloneable } from './interfaces/Cloneable'
-import { IComparable } from './interfaces/Comparable'
-import { IPoint } from './interfaces/Point'
+import { BlockColor } from '../enums/BlockColor'
+import { ICloneable } from '../interfaces/Cloneable'
+import { IComparable } from '../interfaces/Comparable'
+import { IPoint } from '../interfaces/Point'
 
 export class Block implements IPoint, IComparable<Block>, ICloneable<Block> {
     clone(): Block {
