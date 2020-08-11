@@ -5,18 +5,21 @@
     "main": "main.js",
     "scripts": {
         "lint": "eslint . --ext .ts",
-        "build": "parcel build src/client/index.html --public-url ./",
-        "serve": "parcel serve src/client/index.html --port=12345 --cert resources/server.crt --key resources/server.key"
+        "parcel-build": "parcel build src/client/index.html --public-url ./",
+        "parcel-serve": "parcel serve src/client/index.html --port=12345 --cert resources/server.crt --key resources/server.key",
+        "serve": "node src/server/main.js"
     },
     "keywords": [],
     "author": "",
     "license": "",
     "dependencies": {},
     "devDependencies": {
+        "@types/express": "^4.17.7",
         "@typescript-eslint/eslint-plugin": "^3.8.0",
         "@typescript-eslint/parser": "^3.8.0",
         "eslint": "^7.6.0",
         "eslint-config-prettier": "^6.11.0",
+        "express": "^4.17.1",
         "parcel-bundler": "^1.12.4",
         "prettier": "^2.0.5",
         "typescript": "^3.9.7"

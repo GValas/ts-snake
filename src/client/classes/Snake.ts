@@ -1,4 +1,4 @@
-projectimport { Block } from './Block'
+import { Block } from './Block'
 import { BlockColor } from '../enums/BlockColor'
 import { Collision } from '../enums/Collision'
 import { IPoint } from '../interfaces/Point'

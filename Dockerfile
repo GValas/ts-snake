@@ -15,5 +15,7 @@ COPY . .
 # Expose port 
 EXPOSE 80
 
+RUN npm run parcel-build
+
 # Final command
 # CMD [ "npm", "run", "browser-serve" ]
