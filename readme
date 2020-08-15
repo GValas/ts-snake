@@ -17,3 +17,4 @@ Development
 Todos
 * Add tests (as always)
 * Upgrade to NodeJS 11+ 
+* production : use Heroku+Namespace+SSL certificate
