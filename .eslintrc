@@ -1,14 +1,15 @@
 {
     "root": true,
     "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint"],
+    "plugins": ["@typescript-eslint", "prettier"],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended"
     ],
     "rules": {
-        "no-console": "error", // error
+        "prettier/prettier": "error",
+        "no-console": "warn",
         "arrow-parens": ["error", "always"],
         "semi": ["error", "never"],
         "sort-imports": [
@@ -23,6 +24,12 @@
         ],
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off"
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-var-requires": "off"
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true
     }
 }
