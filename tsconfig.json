@@ -10,7 +10,8 @@
         "noUnusedLocals": false,
         "removeComments": true,
         "noLib": false,
-        "target": "es6"
+        "target": "es6",
+        "module": "es2015"
     },
     "exclude": ["node_modules", "**/*.spec.ts"],
     "include": ["src/**/*"]
