@@ -49,20 +49,20 @@ export class Snake {
         return newHead
     }
 
-    saveScore() {
+    async saveScore() {
         const s = new Score()
-        s.writeScore(this.trail.length)
+        await s.writeScore(this.trail.length)
     }
 
-    move(obstacle: Block): Collision {
+    async moveThenGetCollision(obstacle: Block): Promise<Collision> {
         // new head
         const newHead = this.newHead()
 
         // auto-collision
         if (this.trail.some((block) => newHead.sameAs(block))) {
-            this.saveScore()
+            await this.saveScore()
             this.reset()
-            return Collision.AutoCollision
+            return Collision.SelfCollision
         }
 
         // new block

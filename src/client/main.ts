@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime'
 import { Board } from './classes/Board'
 import { Game } from './classes/Game'
 import { Snake } from './classes/Snake'

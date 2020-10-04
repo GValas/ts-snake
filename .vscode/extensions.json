@@ -13,6 +13,7 @@
         "msjsdiag.debugger-for-chrome",
         "PKief.material-icon-theme",
         "rbbit.typescript-hero",
-        "yzhang.markdown-all-in-one"
+        "yzhang.markdown-all-in-one",
+        "eamodio.gitlens"
     ]
 }

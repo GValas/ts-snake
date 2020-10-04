@@ -6,7 +6,7 @@ import { NavKey } from '../enums/NavKey'
 import { Snake } from './Snake'
 
 export class Game {
-    private readonly RefreshRateMs = 100
+    private readonly refreshRateInMs = 100
     private readonly gyroSensitivity = 80
 
     private score = document.querySelector<HTMLDivElement>('#score')!
@@ -71,7 +71,7 @@ export class Game {
     }
 
     start() {
-        setInterval(() => this.refresh(), this.RefreshRateMs)
+        setInterval(async () => await this.refreshFrame(), this.refreshRateInMs)
     }
 
     private touchEnd(evt: TouchEvent) {
@@ -114,19 +114,19 @@ export class Game {
         this.setSnakeSpeed(evt.key)
     }
 
-    private refresh() {
+    private async refreshFrame() {
         // move snake
-        switch (this.snake.move(this.obstacle)) {
+        switch (await this.snake.moveThenGetCollision(this.obstacle)) {
             case Collision.WithObstacle:
                 this.obstacle = this.board.randomObstacle()
                 break
 
-            case Collision.AutoCollision:
+            case Collision.SelfCollision:
                 this.elapsedTime = 0
                 break
         }
 
-        this.elapsedTime += this.RefreshRateMs
+        this.elapsedTime += this.refreshRateInMs
 
         // redraw
         this.board.reset()
