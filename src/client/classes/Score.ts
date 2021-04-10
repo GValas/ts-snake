@@ -21,6 +21,6 @@ export class Score {
             )
         } catch {
             console.log('+++++++++')
-        } 
+        }
     }
 }

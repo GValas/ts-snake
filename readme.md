@@ -25,8 +25,9 @@
     - https://www.grafikart.fr/tutoriels/apache-ssl-letsencrypt-746
 
 > ### Running & debugging
-* VS code extensions : 
-    - https://tattoocoder.com/recommending-vscode-extensions-within-your-open-source-projects/
+* Live debugging 
+    - Go to "NPM SCRIPTS" and simply hit the "bug" icon
+    - breafk points are  to be set (F5)
 
 
 ## ***Todos*** 

@@ -3,8 +3,10 @@ const fs = require('fs')
 const app = express()
 const https = require('https')
 
-app.use(express.static('dist'))
-app.get('/', (req, res) => res.send('Error: no file to serve'))
+app.use(express.static('public'))
+app.get('/', (req, res) => {
+    return res.send('Error: no file to serve')
+})
 
 https
     .createServer(
@@ -14,4 +16,4 @@ https
         },
         app,
     )
-    .listen(3000, () => console.log('Listening on port 3000'))
+    .listen(12345, () => console.log('Listening on port 12345'))

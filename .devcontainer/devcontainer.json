@@ -13,6 +13,7 @@
 		"dracula-theme.theme-dracula",
 		"dbaeumer.vscode-eslint",
 		"ms-azuretools.vscode-docker",
-        "eg2.vscode-npm-script"
+        "eg2.vscode-npm-script",
+        "msjsdiag.debugger-for-chrome"
 	]
 }

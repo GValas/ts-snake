@@ -1,4 +1,4 @@
-FROM node:11-alpine
+FROM node:14.16.0-slim
 
 # Create Directory for the Container
 WORKDIR /app
@@ -13,9 +13,10 @@ RUN npm install
 COPY . .
 
 # Expose port 
-EXPOSE 80
+EXPOSE 12345
 
-RUN npm run parcel-build
+# Bundling 
+RUN npm run webpack-build
 
 # Final command
-# CMD [ "npm", "run", "browser-serve" ]
+CMD npm run snake-serve

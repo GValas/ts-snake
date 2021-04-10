@@ -7,7 +7,8 @@
         "lint": "eslint src/** --ext .js,.ts",
         "webpack-build": "webpack",
         "webpack-serve": "webpack-dev-server",
-        "serve": "node src/server/main.js"
+        "snake-serve": "node src/server/main.js",
+        "debug-me": "node src/shared/debug-me.ts"
     },
     "keywords": [],
     "author": "",
@@ -23,6 +24,7 @@
         "express": "^4.17.1",
         "prettier": "^2.0.5",
         "ts-loader": "^8.0.4",
+        "ts-node": "^9.1.1",
         "typescript": "^3.9.7",
         "webpack": "^4.44.2",
         "webpack-cli": "^3.3.12",

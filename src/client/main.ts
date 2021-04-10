@@ -6,5 +6,5 @@ window.addEventListener('load', () => {
     const board = new Board()
     const snake = new Snake(board.BoardSize)
     const game = new Game(board, snake)
-    game.start() 
+    game.start()
 })
