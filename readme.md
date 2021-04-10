@@ -1,15 +1,14 @@
-***
 ## ***Project description***
 * simple snake game
 * based on typescript
 * handling control by keyboard, touchscreen, gyroscope
 * demonstrating how to use docker for dev environment
 
-***
+
 ## ***The Game***
 * todo
 
-***
+
 ## ***Development*** 
 ### Environment
 * Dockerize your Development Environment : 
@@ -30,14 +29,13 @@
     - https://tattoocoder.com/recommending-vscode-extensions-within-your-open-source-projects/
 
 
-***
 ## ***Todos*** 
 * Add tests (as always)
 * Upgrade to NodeJS 11+  
 * production : use Heroku+Namespace+SSL certificate
 * add logger
 
-***
+
 ## ***Links*** 
 * Markdowns 
     - https://guides.github.com/features/mastering-markdown/
