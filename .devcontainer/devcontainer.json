@@ -1,16 +1,18 @@
 {
     "name": "Node DEV",
     "dockerFile": "Dockerfile",
+    "appPort": [33333],
+    "runArgs": ["-u", "node"],
     "settings": {
-        "terminal.integrated.shell.linux": "/bin/sh"
+        "workbench.colorTheme": "Dracula",
+        "terminal.integrated.shell.linux": "/bin/bash"
     },
-    // Add the IDs of extensions you want installed when the container is created.
+    "postCreateCommand": "npm install",
     "extensions": [
-        "esbenp.prettier-vscode",
-        "rbbit.typescript-hero",
-        "yzhang.markdown-all-in-one",
-        "eg2.vscode-npm-script",
-        "dbaeumer.vscode-eslint",
-        "mongodb.mongodb-vscode"
-    ]
+		"esbenp.prettier-vscode",
+		"dracula-theme.theme-dracula",
+		"dbaeumer.vscode-eslint",
+		"ms-azuretools.vscode-docker",
+        "eg2.vscode-npm-script"
+	]
 }
